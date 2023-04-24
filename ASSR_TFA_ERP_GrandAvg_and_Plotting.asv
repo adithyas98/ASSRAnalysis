@@ -18,11 +18,13 @@ end
 %
 % Average and plot the ERP Files 
 %groups = {'POST','PRE'};
-groups = {'AHRS_mean
+
+groups = {'AHRS_mean_geq_3','AHRS_mean_lessThan_3'};
 
 %get all the files in the folder
 
-subjs = dir([pathname_source '\ERPs.Average_REF']);
+%subjs = dir([pathname_source '\ERPs.Average_REF' ]);
+subjs = dir([pathname_source '\ERPs.Average_REF' '\withAHRS' ]);
 subjectfolderflag = ~[subjs.isdir];%We want to know if the item is a directory
 subjs = {subjs(subjectfolderflag).name};
 subjs = subjs(3:end);%we want to cut out the first two file names which are '.' and '..'
@@ -35,7 +37,7 @@ for g=1:length(groups)
             grandAvgFiles{end+1} = subjs{s};
             %While we are here we can go ahead and generate the EFFT file
             try
-                [ERP ALLERP] = pop_loaderp( 'filename', subjs{s}, 'filepath', [pathname_source '\ERPs.Average_REF']);
+                [ERP ALLERP] = pop_loaderp( 'filename', subjs{s}, 'filepath', [pathname_source '\ERPs.Average_REF'  '\withAHRS' ]);
                 %compute the efft
                 EFFT = pop_averager( ERP , 'Compute', 'EFFT', 'Criterion', 'good', 'TaperWindow', {'hanning' [ -500 1498]} );%Some of the files were created from older versions of Matlab
             catch
@@ -44,7 +46,7 @@ for g=1:length(groups)
                 continue;
             end
             %and save the file
-            outfile = [pathname_source '\ERPs.Average_REF\EFFT\'];
+            outfile = [pathname_source '\ERPs.Average_REF\withAHRS\EFFT\'];
             if exist(outfile, 'dir')==0
                 mkdir(outfile);
             end            
@@ -53,7 +55,7 @@ for g=1:length(groups)
     end
     %Now we can do the averaging
     try
-        [ERP ALLERP] = pop_loaderp( 'filename', grandAvgFiles, 'filepath',[pathname_source '\ERPs.Average_REF']);
+        [ERP ALLERP] = pop_loaderp( 'filename', grandAvgFiles, 'filepath',[pathname_source '\ERPs.Average_REF'  '\withAHRS']);
     catch
 
         %If this doesn't work add it to a list and continue
@@ -93,7 +95,7 @@ for g=1:length(groups)
 end
 disp('Done');
 close all
-%
+%%
 %Move all TFA files to one folder so it is easier to manage
 
 
@@ -121,7 +123,8 @@ close all
 
 %get all the files in the folder
 
-subjs = dir([pathname_source '\All_TFA']);
+%subjs = dir([pathname_source '\All_TFA']);
+subjs = dir([pathname_source '\All_TFA' '\withAHRS']);
 subjectfolderflag = ~[subjs.isdir];%We want to know if the item is a directory
 subjs = {subjs(subjectfolderflag).name};
 subjs = subjs(3:end);%we want to cut out the first two file names which are '.' and '..'
@@ -130,13 +133,14 @@ badFiles = {};
 %cycles = {'3cycle','6cycle','5cycle'};
 cycles = {'6cycle'};
 tfaTypes = {'-500_BL_Tpower','EPower','ITC','No_BL_Tpower'};
-groups = {'POST','PRE'};
+%groups = {'POST','PRE'};
 
 outFolder = [pathname_source '\All_TFA\GrandAvg\'];
 if ~exist(outFolder, 'dir')
     mkdir(outFolder);
 end
-cd([pathname_source '\All_TFA']);
+%cd([pathname_source '\All_TFA']);
+cd([pathname_source '\All_TFA' '\withAHRS']);
 for g=1:length(groups)
     group = groups{g};
     for c=1:length(cycles)
@@ -182,7 +186,7 @@ for g=1:length(groups)
                     end
                     if datatype == 0
                         %Total power
-                        amprange = [-5 5]; % Amplitude range (Z-scale) (displayed as colormap) to plot.
+                        amprange = [- 5]; % Amplitude range (Z-scale) (displayed as colormap) to plot.
                         if contains(cycle,'6')
                             amprange = [-2 3];
                         end
@@ -191,7 +195,7 @@ for g=1:length(groups)
                         amprange = [-0.5 0.5]; % Amplitude range (Z-scale) (displayed as colormap) to plot.
                     elseif datatype == 3
                         % ITC
-                        amprange = [0 0.5]; % Amplitude range (Z-scale) (displayed as colormap) to plot.
+                        amprange = [0 0.3]; % Amplitude range (Z-scale) (displayed as colormap) to plot.
                     else
                         amprange = [0 1];
                     end
@@ -228,6 +232,8 @@ for g=1:length(groups)
                     filename = strcat('ASSR_40-500ms_CH_',TFA.chanlocs(chan).labels,'_',string(TFA.bindescr{bin}),'_',group,'_',cycle,'_',tfaType,'_TFAgrandAverage');
                     maintitle = strcat('40-500ms_CH_',TFA.chanlocs(chan).labels,'_',string(TFA.bindescr{bin}),'_',group,'_',cycle,'_',tfaType);
                     title(maintitle,'interpreter', 'none')
+                    ax=gca;
+                    ax.FontSize=8;
                     %title('hello','interpreter', 'none');
                     colorbar
                     ax = gca;

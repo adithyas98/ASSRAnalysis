@@ -184,7 +184,7 @@ for g=1:length(groups)
                     elseif contains(lower(tfaType),'itc')
                         datatype = 3;
                     end
-                    if datatype == 0
+                    if datatype == 0 && ~contains(lower(tfaType),'epower')
                         %Total power
                         amprange = [-5 5]; % Amplitude range (Z-scale) (displayed as colormap) to plot.
                         if contains(cycle,'6')
@@ -192,7 +192,7 @@ for g=1:length(groups)
                         end
                     elseif contains(lower(tfaType),'epower')
                         %Evoked Power
-                        amprange = [-0.5 0.5]; % Amplitude range (Z-scale) (displayed as colormap) to plot.
+                        amprange = [-0.2 0.6]; % Amplitude range (Z-scale) (displayed as colormap) to plot.
                     elseif datatype == 3
                         % ITC
                         amprange = [0 0.3]; % Amplitude range (Z-scale) (displayed as colormap) to plot.
@@ -231,7 +231,7 @@ for g=1:length(groups)
                     end
                     filename = strcat('ASSR_40-500ms_CH_',TFA.chanlocs(chan).labels,'_',string(TFA.bindescr{bin}),'_',group,'_',cycle,'_',tfaType,'_TFAgrandAverage');
                     maintitle = strcat('40-500ms_CH_',TFA.chanlocs(chan).labels,'_',string(TFA.bindescr{bin}),'_',group,'_',cycle,'_',tfaType);
-                    title(maintitle,'interpreter', 'none')
+                    title(maintitle,'interpreter', 'none','FontSize',8)
                     %title('hello','interpreter', 'none');
                     colorbar
                     ax = gca;
