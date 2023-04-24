@@ -1,0 +1,35 @@
+BEFORE 15/FEB/2021
+
+SOUNDS
+S4 = standard
+S200 = target = "500ms1kHz"
+S100 = any deviant
+
+CLICKS
+S8 = correct mouse click
+S101 = incorrect mouse click
+S44 = click after a standard
+
+PORT CODES
+S128 = start port code (should be first trigger)
+S40 = end port code (should be last trigger)
+----------------------------------------------------------
+AFTER 15/FEB/2021, triggers for standards (5hz, 12hz, 80hz, 40hz 500ms, 40hz 1300ms) were customized...
+
+SOUNDS
+S4 = 40hz 500ms standard (only in 40hz 500ms trial)
+S5 = 5hz standard (only in 5hz trial)
+S12 = 12hz standard (only in 12hz trial)
+S80 = 80hz standard (only in 80hz trial)
+S41 = 40hz 1300ms standard (only in 40hz 1300ms trial)
+S200 = target = "500ms1kHz"
+S100 = any deviant
+
+CLICKS
+S8 = correct mouse click
+S101 = incorrect mouse click
+S44 = click after a standard
+
+PORT CODES
+S128 = start port code (should be first trigger)
+S40 = end port code (should be last trigger)

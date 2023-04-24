@@ -1,0 +1,15 @@
+Bin1 
+80hz Standards
+.{80}
+
+Bin2
+Target Beeps
+.{200}
+
+Bin3
+Correct Mouse Clicks
+.{8}
+
+Bin4
+Incorrect Mouse Clicks
+.{101}
